@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DATA_DIR = (BASE_DIR / config('DATA_DIR', default=Path('data'), cast=Path)).resolve()
 OUTPUT_DIR = (BASE_DIR / config('OUTPUT_DIR', default=Path('output'), cast=Path)).resolve()
-WRDS_USERNAME = config("WRDS_USERNAME", default="")
+WRDS_USERNAME = config("elsizhang", default="")
 
 START_DATE = config("START_DATE", default="2021-12-31")
 END_DATE = config("END_DATE", default="2022-03-31")

@@ -3,6 +3,7 @@ like a Makefile, but is Python-based
 """
 
 import sys
+
 sys.path.insert(1, "./src/")
 
 
@@ -58,15 +59,19 @@ def copy_notebook_to_folder(notebook_stem, origin_folder, destination_folder):
     return command
 
 
-def task_pull_fred():
+def task_pull_nyu_call_report_data():
     """ """
-    file_dep = ["./src/load_fred.py"]
-    file_output = ["fred.parquet"]
+    file_dep = [
+        "./src/config.py",
+        "./src/load_nyu_call_report_data.py"
+        ]
+    file_output = ["nyu_call_report.parquet"]
     targets = [DATA_DIR / "pulled" / file for file in file_output]
 
     return {
         "actions": [
-            "ipython ./src/load_fred.py",
+            "ipython ./src/config.py",
+            "ipython ./src/load_nyu_call_report_data.py",
         ],
         "targets": targets,
         "file_dep": file_dep,
@@ -202,7 +207,10 @@ def task_run_notebooks():
     actions = [
         *[jupyter_execute_notebook(notebook) for notebook in stems],
         *[jupyter_to_html(notebook) for notebook in stems],
-        *[copy_notebook_to_folder(notebook, Path("./src"), "./docs/_notebook_build/") for notebook in stems],
+        *[
+            copy_notebook_to_folder(notebook, Path("./src"), "./docs/_notebook_build/")
+            for notebook in stems
+        ],
         *[jupyter_clear_output(notebook) for notebook in stems],
         # *[jupyter_to_python(notebook, build_dir) for notebook in notebooks_to_run],
     ]
@@ -213,8 +221,6 @@ def task_run_notebooks():
         "file_dep": file_dep,
         "clean": True,
     }
-
-
 
 
 def task_compile_latex_docs():
